@@ -5,32 +5,35 @@ mod route;
 
 use axum::Router;
 use std::net::SocketAddr;
+use time::{UtcOffset, format_description::well_known::Rfc3339};
 use tracing::info;
-use tracing_subscriber::{fmt::time::ChronoLocal, EnvFilter, Layer, layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::{
+    EnvFilter, Layer, fmt::time::OffsetTime, layer::SubscriberExt, util::SubscriberInitExt,
+};
 
 #[derive(Clone)]
-pub struct ApiState {
-    
-}
+pub struct ApiState {}
 
 impl ApiState {
     fn new() -> Self {
-        Self {
-            
-        }
+        Self {}
     }
 }
 
 #[tokio::main]
 async fn main() {
+    let timer = OffsetTime::new(
+        UtcOffset::from_hms(7, 0, 0).unwrap_or(UtcOffset::UTC),
+        Rfc3339,
+    );
     tracing_subscriber::registry()
         .with(
             tracing_subscriber::fmt::Layer::new()
                 .with_writer(std::io::stdout)
-                .with_timer(ChronoLocal::rfc_3339())
+                .with_timer(timer)
                 .with_ansi(true)
                 .with_target(true)
-                .with_filter(EnvFilter::new("debug,hyper=warn,axum=trace")),
+                .with_filter(EnvFilter::new("debug,hyper=warn")),
         )
         .init();
 

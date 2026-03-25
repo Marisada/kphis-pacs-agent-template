@@ -1,9 +1,21 @@
-use axum::{Json, extract::{Path, Query, State}, body::Bytes, http::{header, Response}};
+use axum::{
+    Json,
+    body::Bytes,
+    extract::{Path, Query, State},
+    http::{Response, header},
+};
 use http_body_util::Full;
 
-use crate::{error::AppError, model::{PacsXnData, PacsImageData, PacsParams}, ApiState};
+use crate::{
+    ApiState,
+    error::AppError,
+    model::{PacsImageData, PacsParams, PacsXnData},
+};
 
-pub async fn get_pacs_xn(Path(xn): Path<i32>, State(_state): State<ApiState>) -> Result<Json<PacsXnData>, AppError> {
+pub async fn get_pacs_xn(
+    Path(xn): Path<i32>,
+    State(_state): State<ApiState>,
+) -> Result<Json<PacsXnData>, AppError> {
     Ok(Json(PacsXnData {
         fname: String::from("ชื่อทดสอบ"),
         lname: String::from("นามสกุลทดสอบ"),
@@ -23,7 +35,10 @@ pub async fn get_pacs_xn(Path(xn): Path<i32>, State(_state): State<ApiState>) ->
     }))
 }
 
-pub async fn get_pacs_thumbnail(Query(params): Query<PacsParams>, State(_state): State<ApiState>) -> Result<Response<Full<Bytes>>, AppError> {
+pub async fn get_pacs_thumbnail(
+    Query(params): Query<PacsParams>,
+    State(_state): State<ApiState>,
+) -> Result<Response<Full<Bytes>>, AppError> {
     if let (Some(_thumbnail_path), Some(_study_uid)) = (&params.thumbnail_path, &params.study_uid) {
         let data = Bytes::new();
         let body = Full::new(data);
@@ -36,8 +51,13 @@ pub async fn get_pacs_thumbnail(Query(params): Query<PacsParams>, State(_state):
     }
 }
 
-pub async fn get_pacs_image(Query(params): Query<PacsParams>, State(_state): State<ApiState>) -> Result<Response<Full<Bytes>>, AppError> {
-    if let (Some(_study_uid), Some(_series_uid), Some(_object_uid)) = (&params.study_uid, &params.series_uid, &params.object_uid) {
+pub async fn get_pacs_image(
+    Query(params): Query<PacsParams>,
+    State(_state): State<ApiState>,
+) -> Result<Response<Full<Bytes>>, AppError> {
+    if let (Some(_study_uid), Some(_series_uid), Some(_object_uid)) =
+        (&params.study_uid, &params.series_uid, &params.object_uid)
+    {
         let data = Bytes::new();
         let body = Full::new(data);
         Response::builder()
@@ -64,7 +84,6 @@ pub mod tests {
             .save_cookies()
             .http_transport()
             .build(app.into_make_service_with_connect_info::<SocketAddr>())
-            .unwrap()
     }
 
     #[tokio::test(flavor = "multi_thread", worker_threads = 1)]

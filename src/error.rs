@@ -17,7 +17,6 @@ impl AppError {
 }
 
 impl IntoResponse for AppError {
-
     fn into_response(self) -> Response {
         // How we want errors responses to be serialized
         #[derive(Serialize)]
@@ -27,7 +26,10 @@ impl IntoResponse for AppError {
 
         let (status, message) = match &self {
             Self::BadRequest => (http::StatusCode::BAD_REQUEST, String::from("Bad Request")),
-            Self::HttpError(http_error) => (http::StatusCode::INTERNAL_SERVER_ERROR, http_error.to_string()),
+            Self::HttpError(http_error) => (
+                http::StatusCode::INTERNAL_SERVER_ERROR,
+                http_error.to_string(),
+            ),
         };
 
         let response = (status, AppJson(ErrorResponse { message })).into_response();

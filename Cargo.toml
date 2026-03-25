@@ -1,7 +1,7 @@
 [package]
 name = "kphis-pacs-agent-template"
-version = "0.1.0"
-rust-version = "1.90"
+version = "0.1.1"
+rust-version = "1.94"
 edition = "2024"
 authors = ["Marisada Pitaktham <p.marisada@gmail.com>"]
 description = "Minimal Template for KPHIS PACs Agent"
@@ -18,7 +18,7 @@ time = { version = "0.3", features = [ "macros", "parsing", "serde-human-readabl
 tokio = { version = "1", features = [ "full" ]}
 tower-http = { version = "0.6", features = [ "fs", "compression-br", "compression-gzip", "set-header", "trace", "timeout" ]}
 tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = [ "chrono", "ansi", "env-filter" ] }
+tracing-subscriber = { version = "0.3", features = [ "time", "env-filter" ] }
 
 [target.'cfg(all(target_arch = "x86_64", target_env = "musl"))'.dependencies]
 tikv-jemallocator = "0.6"
@@ -27,7 +27,7 @@ tikv-jemallocator = "0.6"
 mimalloc = "0.1"
 
 [dev-dependencies]
-axum-test = "17"
+axum-test = "19"
 
 [profile.release]
 lto = true

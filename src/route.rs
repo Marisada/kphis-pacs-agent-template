@@ -2,7 +2,7 @@ use axum::{Router, routing::get};
 use std::time::Duration;
 use tower_http::timeout::TimeoutLayer;
 
-use crate::{handlers, ApiState};
+use crate::{ApiState, handlers};
 
 pub fn api_router(state: ApiState) -> Router {
     Router::new()

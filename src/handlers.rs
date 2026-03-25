@@ -7,9 +7,8 @@ use axum::{
 use http_body_util::Full;
 
 use crate::{
-    ApiState,
     error::AppError,
-    model::{PacsImageData, PacsParams, PacsXnData},
+    model::{ApiState, PacsImageData, PacsParams, PacsXnData},
 };
 
 pub async fn get_pacs_xn(
@@ -39,7 +38,7 @@ pub async fn get_pacs_thumbnail(
     Query(params): Query<PacsParams>,
     State(_state): State<ApiState>,
 ) -> Result<Response<Full<Bytes>>, AppError> {
-    if let (Some(_thumbnail_path), Some(_study_uid)) = (&params.thumbnail_path, &params.study_uid) {
+    if let (Some(_file_path), Some(_study_uid)) = (&params.file_path, &params.study_uid) {
         let data = Bytes::new();
         let body = Full::new(data);
         Response::builder()
@@ -75,7 +74,7 @@ pub mod tests {
 
     use axum_test::TestServer;
     use std::net::SocketAddr;
-    use crate::{route, ApiState};
+    use crate::{route, model::ApiState};
 
     #[allow(dead_code)]
     pub async fn new_test_app(state: ApiState) -> TestServer {

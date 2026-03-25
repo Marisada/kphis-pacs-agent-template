@@ -11,6 +11,7 @@ keywords = []
 
 [dependencies]
 axum = { version = "0.8", features = [ "macros" ] }
+config = "0.15"
 http-body-util = "0.1"
 serde = "=1"
 serde_derive = "1"
@@ -18,7 +19,9 @@ time = { version = "0.3", features = [ "macros", "parsing", "serde-human-readabl
 tokio = { version = "1", features = [ "full" ]}
 tower-http = { version = "0.6", features = [ "fs", "compression-br", "compression-gzip", "set-header", "trace", "timeout" ]}
 tracing = "0.1"
+tracing-appender = "0.2"
 tracing-subscriber = { version = "0.3", features = [ "time", "env-filter" ] }
+ulid = "1"
 
 [target.'cfg(all(target_arch = "x86_64", target_env = "musl"))'.dependencies]
 tikv-jemallocator = "0.6"

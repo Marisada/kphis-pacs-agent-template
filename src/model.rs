@@ -1,9 +1,18 @@
 use serde_derive::{Deserialize, Serialize};
 use time::PrimitiveDateTime;
 
+#[derive(Clone)]
+pub struct ApiState {}
+
+impl ApiState {
+    pub fn new() -> Self {
+        Self {}
+    }
+}
+
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct PacsParams {
-    pub thumbnail_path: Option<String>,
+    pub file_path: Option<String>,
     pub study_uid: Option<String>,
     pub series_uid: Option<String>,
     pub object_uid: Option<String>,
@@ -16,7 +25,9 @@ pub struct PacsXnData {
     pub mname: String,
     pub sname: String,
     pub birth: Option<PrimitiveDateTime>,
+    // XN
     pub ext_id: String,
+    // M, F
     pub gender: String,
     pub images: Vec<PacsImageData>,
 }

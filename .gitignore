@@ -1,6 +1,7 @@
 .vscode/
 debug/
 target/
+volume/config/debug.toml
 Cargo.lock
 **/*.rs.bk
 *.pdb

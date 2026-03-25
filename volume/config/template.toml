@@ -1,0 +1,21 @@
+#=============#
+# Application #
+#=============#
+app-listener-port = 8888
+
+
+#=========#
+# Logging #
+#=========#
+# level = off | trace | debug | info | warn | error
+# crate name that contains hyphens(-) need to replace with underscores(_) ex: "sqlx-mysql" to "sqlx_mysql"
+# ex: "debug,hyper=warn,sqlx=info" means
+#  'hyper' crate will show 'warn' and 'error',
+#  'sqlx' or 'sqlx-xxx' crate will show 'info', 'warn' and 'error',
+#  others crate will show 'debug', 'info', 'warn' and 'error'
+# read more at https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#directives
+log-console = "debug,hyper=warn"
+log-file = "debug,hyper=warn"
+
+# We rolling the log file every hour, if logging every hour for 90 days will be maxed at 24 * 90 = 2160 files
+app-keep-log-day = 90
